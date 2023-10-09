@@ -1,0 +1,101 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+}
+
+android {
+    namespace build_versions.application_id
+
+    compileSdk build_versions.compile_sdk
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        applicationId "id.xxx.example"
+        minSdk build_versions.min_sdk
+        targetSdk build_versions.target_sdk
+        versionCode build_versions.code
+        versionName build_versions.name
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        resConfigs "en"
+    }
+
+    signingConfigs {
+        def home_dir = System.getProperty("user.home")
+        def store_file = file("$rootDir/key_store/debug.keystore")
+        def store_password = "android"
+        def key_alias = "androiddebugkey"
+        def key_password = "android"
+
+        release {
+            storeFile store_file
+            storePassword store_password
+            keyAlias key_alias
+            keyPassword key_password
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            debuggable false
+            jniDebuggable false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions { jvmTarget = "1.8" }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
+    }
+
+    packagingOptions {
+        exclude "META-INF/**"
+        exclude "okhttp3/**"
+        exclude "kotlin/**"
+        exclude "org/**"
+        exclude "**.properties"
+        exclude "**.bin"
+        exclude "kotlin-tooling-metadata.json"
+    }
+}
+
+dependencies {
+
+//    implementation "androidx.leanback:leanback:$vLeanback"
+    implementation "androidx.appcompat:appcompat:$vAndroidxAppCompat"
+    implementation "androidx.media3:media3-exoplayer:$vAndroidxMedia3"
+    implementation "androidx.media3:media3-ui:$vAndroidxMedia3"
+    implementation "androidx.media3:media3-exoplayer-dash:$vAndroidxMedia3"
+    implementation "androidx.media3:media3-exoplayer-hls:$vAndroidxMedia3"
+    implementation "androidx.recyclerview:recyclerview:$vAndroidxRecyclerview"
+    implementation "androidx.cardview:cardview:$vAndroidxCardView"
+    implementation "androidx.constraintlayout:constraintlayout:$vAndroidxConstrainLayout"
+    implementation "com.github.bumptech.glide:glide:$vGlide"
+
+    testImplementation "junit:junit:$vJunit"
+    testImplementation "org.mockito:mockito-core:$vMockito"
+    testImplementation "org.mockito:mockito-inline:$vMockitoInline"
+
+    androidTestImplementation "androidx.test.ext:junit-ktx:$vAndroidxTestExtJunit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$vAndroidxTestEspresso"
+    androidTestImplementation "com.android.support.test:rules:$vAndroidxTestRules"
+    implementation "androidx.test.espresso:espresso-idling-resource:$vAndroidxTestEspresso"
+}

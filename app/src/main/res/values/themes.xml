@@ -1,0 +1,7 @@
+<resources>
+
+    <!--    <style name="Theme.Example" parent="@style/Theme.Leanback">-->
+    <style name="Theme.Example" parent="@style/Theme.AppCompat.Light">
+        <!---->
+    </style>
+</resources>
